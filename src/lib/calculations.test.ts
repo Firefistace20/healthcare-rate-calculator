@@ -32,6 +32,7 @@ const baseInputs: CalculatorInputs = {
   stateTaxRegularPercent: 0.18,
   stateTaxOvertimePercent: 0.18,
   recruiterIncentivePercent: 0.04,
+  factoringPercent: 0,
   usdInrRate: 85,
   complianceCost: 1000
 };
@@ -42,34 +43,34 @@ test('Accuracy against Excel: Main Scenario', (t) => {
   // Assert expected outputs from Excel
   // Overtime Bill Rate (D14): 115 + 10 = 125
   assert.strictEqual(result.overtimeBillRate, 125);
-  
+
   // Months (I10): 13 / 4.3 = 3.0232558139534884
   assert.ok(Math.abs(result.months - 3.02325581) < 0.001);
-  
+
   // Days (I12): 13 * 3 = 39
   assert.strictEqual(result.days, 39);
-  
+
   // Total Hours / Week (I24): 36
   assert.strictEqual(result.totalHoursPerWeek, 36);
-  
+
   // Total Hours (I26): 468
   assert.strictEqual(result.totalHours, 468);
-  
+
   // Stipend Hourly (T3): ((110+68)*7)/36 = 34.611111111111114
   assert.ok(Math.abs(result.stipendHourly - 34.61111111) < 0.001);
-  
+
   // Per Diem Weekly (N10): Stipend * Reg Hours = 1246
   assert.strictEqual(Math.round(result.perDiemWeekly), 1246);
 
   // W2 Hourly (N8): 54
   assert.strictEqual(result.w2Hourly, 54);
-  
+
   // Weekly Gross (N4): Per Diem Weekly + W2 Weekly + OT Weekly = 1246 + (54 * 36) + (0) = 3190
   assert.strictEqual(Math.round(result.weeklyGross), 3190);
-  
+
   // Blended Hourly (N6): 34.611 + 54 = 88.611
   assert.ok(Math.abs(result.blendedHourly - 88.611) < 0.001);
-  
+
   // Client Fee Regular (R22): VLOOKUP Medefis = 0.0625
   assert.strictEqual(result.clientFeeRegularPct, 0.0625);
 
